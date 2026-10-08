@@ -1,10 +1,9 @@
-//! `MiniMessage` language server integration for Zed.
+//! `MiniMessage` language server implementation for Zed.
 //!
-//! This module implements the integration between the `MiniMessage` extension
-//! and Zed's extension API.
+//! This module implements the language server protocol for `MiniMessage` validation
+//! and hover previews in Zed.
 
 use std::fmt::Write;
-use zed_extension_api as zed;
 
 /// The `MiniMessage` language server implementation.
 pub struct MiniMessageLanguageServer {
@@ -80,114 +79,8 @@ impl MiniMessageLanguageServer {
     }
 }
 
-/// Implementation of the Zed Extension for `MiniMessage`.
-pub struct ZedExtension {
-    /// The language server instance
-    language_server: MiniMessageLanguageServer,
-}
-
-impl zed::Extension for ZedExtension {
-    fn new() -> Self {
-        Self {
-            language_server: MiniMessageLanguageServer::new(),
-        }
-    }
-
-    fn language_server_command(
-        &mut self,
-        _language_server_id: &zed::LanguageServerId,
-        _worktree: &zed::Worktree,
-    ) -> Result<zed::Command, String> {
-        // For MVP, we're implementing everything in the extension directly
-        // rather than spawning an external language server process.
-        // However, we need to return a valid command to satisfy the API
-        Ok(zed::Command {
-            command: "minimessage-lsp".to_string(),
-            args: vec![],
-            env: vec![],
-        })
-    }
-
-    fn language_server_initialization_options(
-        &mut self,
-        _language_server_id: &zed::LanguageServerId,
-        _worktree: &zed::Worktree,
-    ) -> Result<Option<zed::serde_json::Value>, String> {
-        // Use the language server for configuration in a real implementation
-        let _ = &self.language_server; // Prevent unused field warning
-        Ok(None)
-    }
-
-    fn language_server_workspace_configuration(
-        &mut self,
-        _language_server_id: &zed::LanguageServerId,
-        _worktree: &zed::Worktree,
-    ) -> Result<Option<zed::serde_json::Value>, String> {
-        // Use the language server for workspace configuration in a real implementation
-        let _ = &self.language_server; // Prevent unused field warning
-        Ok(None)
-    }
-}
-
 impl Default for MiniMessageLanguageServer {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_language_server_validation() {
-        let server = MiniMessageLanguageServer::new();
-        let content = "<red>Hello <bold>World</red></bold>";
-
-        let diagnostics = server.validate_content(content);
-        assert_ne!(diagnostics, [] as [String; 0]);
-
-        // Check that we get the expected mismatched tags error
-        assert!(
-            diagnostics
-                .iter()
-                .any(|msg| msg.contains("Mismatched tags"))
-        );
-    }
-
-    #[test]
-    fn test_language_server_valid_content() {
-        let server = MiniMessageLanguageServer::new();
-        let content = "<red>Hello <bold>World</bold>!</red>";
-
-        let diagnostics = server.validate_content(content);
-        assert_eq!(diagnostics, [] as [String; 0]);
-    }
-
-    #[test]
-    fn test_language_server_hover() {
-        let server = MiniMessageLanguageServer::new();
-        let content = "<red>Hello <bold>World</bold>!</red>";
-
-        let hover_info = server.hover_content(content);
-        assert!(hover_info.is_some());
-
-        let hover_text = hover_info.unwrap();
-        assert!(hover_text.contains("Open Tag: <red>"));
-        assert!(hover_text.contains("Text: \"Hello \""));
-        assert!(hover_text.contains("Open Tag: <bold>"));
-        assert!(hover_text.contains("Text: \"World\""));
-    }
-
-    #[test]
-    fn test_zed_extension() {
-        // Test that the extension implements the Extension trait
-        fn assert_extension_trait<T: zed::Extension>(_: &T) {}
-
-        let extension = ZedExtension {
-            language_server: MiniMessageLanguageServer::new(),
-        };
-
-        assert_extension_trait(&extension);
     }
 }

@@ -7,4 +7,4 @@ authors = ["Xodium Software <hello@xodium.org>"]
 repository = "https://github.com/XodiumSoftware/zed-minimessage-ext"
 
 [wasm]
-languages = ["rust"]
+languages = "rust"

@@ -20,27 +20,32 @@ impl zed::Extension for MiniMessageExtension {
         Self
     }
 
-    /// Provide the language server command for `MiniMessage` files.
-    ///
-    /// For MVP, we handle diagnostics and hover directly in the extension
-    /// rather than spawning an external LSP server.
     fn language_server_command(
         &mut self,
         _language_server_id: &zed::LanguageServerId,
         _worktree: &zed::Worktree,
     ) -> Result<zed::Command, String> {
-        // TODO: For MVP, implement validation/hover directly in extension.
-        // For advanced features, spawn an LSP server here.
-        Err("MiniMessage extension handles language server features internally".to_string())
+        Ok(zed::Command {
+            command: "minimessage-lsp".to_string(),
+            args: vec![],
+            env: vec![],
+        })
     }
 
-    /// Provide language server initialization options.
     fn language_server_initialization_options(
         &mut self,
         _language_server_id: &zed::LanguageServerId,
         _worktree: &zed::Worktree,
     ) -> Result<Option<zed::serde_json::Value>, String> {
-        Ok(None)
+        Ok(Some(zed::serde_json::json!({
+            "name": "MiniMessage Language Server",
+            "version": "0.1.0",
+            "capabilities": {
+                "hoverProvider": true,
+                "diagnosticProvider": true,
+                "completionProvider": false,
+            }
+        })))
     }
 }
 
