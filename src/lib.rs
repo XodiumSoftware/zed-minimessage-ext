@@ -8,6 +8,7 @@
 use zed_extension_api as zed;
 
 pub mod parser;
+pub mod validator;
 
 /// The `MiniMessage` extension for Zed.
 struct MiniMessageExtension;
