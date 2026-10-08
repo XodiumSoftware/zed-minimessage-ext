@@ -1,3 +1,4 @@
+id = "zed-minimessage-ext"
 name = "zed-minimessage-ext"
 description = "MiniMessage validation and hover preview for Zed"
 version = "0.1.0"
