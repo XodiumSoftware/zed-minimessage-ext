@@ -22,3 +22,7 @@
 
 # Build output
 /dist
+*.wasm
+
+# Zed extension artifacts
+/extension.wasm
