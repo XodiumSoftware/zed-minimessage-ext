@@ -7,6 +7,7 @@
 
 use zed_extension_api as zed;
 
+pub mod hover;
 pub mod parser;
 pub mod validator;
 
