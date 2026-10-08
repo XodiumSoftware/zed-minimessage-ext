@@ -1,23 +1,43 @@
-//! Crate root for the project.
+//! Zed extension for `MiniMessage` validation and hover preview.
 //!
-//! Add modules and re-exports here as the project grows.
+//! This extension provides:
+//! - Syntax validation for `MiniMessage` strings (unclosed tags, invalid colors)
+//! - Hover previews showing parsed `MiniMessage` structure
+//! - Diagnostics with quick-fix suggestions
 
-/// Placeholder project name. Replace with the actual project name.
-pub const PROJECT_NAME: &str = env!("CARGO_PKG_NAME");
+use zed_extension_api as zed;
 
-/// Returns a greeting message for the project.
-///
-/// This is a minimal example function. Remove or replace it with real logic.
-pub fn greet(name: &str) -> String {
-    format!("Hello, {name}! Welcome to the project.")
-}
+/// The `MiniMessage` extension for Zed.
+struct MiniMessageExtension;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl zed::Extension for MiniMessageExtension {
+    fn new() -> Self {
+        Self
+    }
 
-    #[test]
-    fn greet_works() {
-        assert_eq!(greet("world"), "Hello, world! Welcome to the project.");
+    /// Provide the language server command for `MiniMessage` files.
+    ///
+    /// For MVP, we handle diagnostics and hover directly in the extension
+    /// rather than spawning an external LSP server.
+    fn language_server_command(
+        &mut self,
+        _language_server_id: &zed::LanguageServerId,
+        _worktree: &zed::Worktree,
+    ) -> Result<zed::Command, String> {
+        // TODO: For MVP, implement validation/hover directly in extension.
+        // For advanced features, spawn an LSP server here.
+        Err("No language server command configured (in-extension mode)".to_string())
+    }
+
+    /// Provide language server initialization options.
+    fn language_server_initialization_options(
+        &mut self,
+        _language_server_id: &zed::LanguageServerId,
+        _worktree: &zed::Worktree,
+    ) -> Result<Option<zed::serde_json::Value>, String> {
+        Ok(None)
     }
 }
+
+// Register the extension with Zed
+zed::register_extension!(MiniMessageExtension);

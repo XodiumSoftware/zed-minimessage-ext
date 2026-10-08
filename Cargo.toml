@@ -1,41 +1,20 @@
 [package]
-name = "<project_name>"
-# Version follows Semantic Versioning (MAJOR.MINOR.PATCH).
-# Bump MAJOR for breaking changes, MINOR for new features, and PATCH for fixes.
+name = "zed-minimessage-ext"
 version = "0.1.0"
-# Update the edition to the latest stable Rust edition if appropriate.
 edition = "2024"
-# Set `publish = false` if you do not intend to release this crate to crates.io.
-# In that case, the `version` key can also be omitted.
+description = "MiniMessage validation and hover preview for Zed"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
-# Replace the dependencies below with the crates your project actually needs.
-# The original dependencies were for a Leptos CSR WASM site.
-# <add dependencies here>
-
-# [dev-dependencies]
-# <add dev-dependencies here>
-
-# [package.metadata.cargo-machete]
-# Add this section if you use cargo-machete and need to ignore false positives.
+zed_extension_api = "0.7"
 
 [profile.release]
-# Optimization level. "z" optimizes for binary size; "s" balances size and speed;
-# 1-3 optimize increasingly for speed. Choose what fits your project.
 opt-level = "z"
-
-# Link-time optimization. `true` enables full LTO for smaller and faster binaries
-# at the cost of longer compile times. `false` or "thin" can speed up builds.
 lto = true
-
-# Number of code generation units. `1` gives the compiler the most freedom to
-# optimize but is slower. Higher values compile faster but may produce larger binaries.
 codegen-units = 1
-
-# Panic strategy. "abort" produces smaller binaries because no unwinding code is
-# generated. Use "unwind" if you need to catch panics or run destructors during panic.
 panic = "abort"
-
-# Strip debug symbols and metadata. `true` reduces binary size; set to `false`
-# if you need symbols for debugging or profiling.
 strip = true
