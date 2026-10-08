@@ -1,9 +1,8 @@
 id = "zed-minimessage-ext"
 name = "zed-minimessage-ext"
 description = "MiniMessage validation and hover preview for Zed"
+authors = ["illyrius666"]
+repository = "https://github.com/XodiumSoftware/zed-minimessage-ext"
 version = "0.1.0"
 schema_version = 1
-
-[wasm]
-
 languages = ["rust"]
