@@ -5,11 +5,4 @@ schema_version = 1
 
 [wasm]
 
-[[languages]]
-name = "MiniMessage"
-grammar = "minimessage"
-extensions = ["mm", "minimessage", "mcmsg"]
-
-[grammars.minimessage]
-repository = "https://github.com/zed-minimessage-ext/minimessage-zed"
-commit = "HEAD"
+languages = ["rust"]
