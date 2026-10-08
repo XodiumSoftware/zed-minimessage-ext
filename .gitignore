@@ -1,0 +1,24 @@
+# IDE
+/.idea
+/.vscode
+/.vs
+/.eclipse
+/.nbproject
+/.settings
+*.iml
+.project
+.classpath
+
+# AI assistants
+/.claude
+/.ai
+/.cursor
+/.copilot
+
+# Rust
+/target
+**/*.rs.bk
+*.pdb
+
+# Build output
+/dist
