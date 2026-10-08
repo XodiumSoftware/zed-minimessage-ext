@@ -8,6 +8,7 @@
 use zed_extension_api as zed;
 
 pub mod hover;
+pub mod language_server;
 pub mod parser;
 pub mod validator;
 
@@ -30,7 +31,7 @@ impl zed::Extension for MiniMessageExtension {
     ) -> Result<zed::Command, String> {
         // TODO: For MVP, implement validation/hover directly in extension.
         // For advanced features, spawn an LSP server here.
-        Err("No language server command configured (in-extension mode)".to_string())
+        Err("MiniMessage extension handles language server features internally".to_string())
     }
 
     /// Provide language server initialization options.
