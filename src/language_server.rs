@@ -100,8 +100,12 @@ impl zed::Extension for ZedExtension {
     ) -> Result<zed::Command, String> {
         // For MVP, we're implementing everything in the extension directly
         // rather than spawning an external language server process.
-        let _ = &self.language_server; // Prevent unused field warning
-        Err("MiniMessage extension handles language server features internally".to_string())
+        // However, we need to return a valid command to satisfy the API
+        Ok(zed::Command {
+            command: "minimessage-lsp".to_string(),
+            args: vec![],
+            env: vec![],
+        })
     }
 
     fn language_server_initialization_options(

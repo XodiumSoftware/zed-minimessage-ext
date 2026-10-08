@@ -1,10 +1,11 @@
-//! Example of MiniMessage usage in Rust code for Zed extension testing.
+//! Example of `MiniMessage` usage in Rust code for Zed extension testing.
 //!
-//! This file demonstrates how MiniMessage strings appear in Rust code and
+//! This file demonstrates how `MiniMessage` strings appear in Rust code and
 //! how the Zed extension would show hover previews for them.
 
-/// Example function showing various MiniMessage patterns that would be
+/// Example function showing various `MiniMessage` patterns that would be
 /// detected by the extension.
+#[must_use]
 pub fn create_components() -> Vec<String> {
     let mut components = Vec::new();
 
@@ -12,9 +13,8 @@ pub fn create_components() -> Vec<String> {
     components.push(format!("<red>Player {} joined the game!</red>", "JohnDoe"));
 
     // Nested formatting with bold and italic
-    components.push(format!(
-        "<green><bold>Welcome</bold> to the <italic>server</italic>!</green>"
-    ));
+    components
+        .push("<green><bold>Welcome</bold> to the <italic>server</italic>!</green>".to_string());
 
     // Gradient example
     components.push(format!(
@@ -23,19 +23,16 @@ pub fn create_components() -> Vec<String> {
     ));
 
     // Click and hover events
-    components.push(format!(
+    components.push(
         "<blue><click:run_command:'help'>Click for help</click> <hover:show_text:'More info'>ℹ</hover></blue>"
-    ));
+            .to_string(),
+    );
 
     // Keybind translation
-    components.push(format!(
-        "Press <aqua><keybind:key.jump>SPACE</keybind> to jump!</aqua>"
-    ));
+    components.push("Press <aqua><keybind:key.jump>SPACE</keybind> to jump!</aqua>".to_string());
 
     // Score display
-    components.push(format!(
-        "<yellow>Current score: <score:player:kills>0</score></yellow>"
-    ));
+    components.push("<yellow>Current score: <score:player:kills>0</score></yellow>".to_string());
 
     // Invalid example that would show errors
     // components.push("<red>Unclosed tag".to_string()); // Uncomment to see diagnostic
@@ -44,7 +41,8 @@ pub fn create_components() -> Vec<String> {
 }
 
 /// Example of a TOML-like config that the extension would also validate.
-/// This shows how MiniMessage strings appear in configuration contexts.
+/// This shows how `MiniMessage` strings appear in configuration contexts.
+#[must_use]
 pub fn load_config() -> String {
     // This would be loaded from a file in a real application
     let config = r#"
@@ -66,7 +64,7 @@ motd = "<gradient:#FF0000,#FFFF00>Welcome to our server! Enjoy your stay!</gradi
     config.to_string()
 }
 
-/// Main function for testing the MiniMessage extension.
+/// Main function for testing the `MiniMessage` extension.
 ///
 /// This function runs when the example is executed directly.
 fn main() {
@@ -82,10 +80,11 @@ fn main() {
     // Show configuration example
     println!("\nLoading configuration:");
     let config = load_config();
-    println!("Config:\n{}", config);
+    println!("Config:\n{config}");
 
     println!("\n=== Example complete ===");
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;
